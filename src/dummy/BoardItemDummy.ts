@@ -19,6 +19,13 @@ const prizeDummyB: BoardItemPrize = {
   hiddenIcon: "https://cdn-icons-png.flaticon.com/512/2743/2743237.png",
 };
 
+type PrizeList = { [id: string]: BoardItemPrize };
+
+const prizeListDummy: PrizeList = {
+  "prize-a": prizeDummyA,
+  "prize-b": prizeDummyB,
+};
+
 const boardItemDummy: BoardItemProps[] = [
   { id: "a", status: BoardItemStatus.CLOSE, prize: prizeDummyA },
   { id: "b", status: BoardItemStatus.CLOSE },
@@ -38,4 +45,4 @@ const boardItemDummy: BoardItemProps[] = [
   { id: "q", status: BoardItemStatus.CLOSE },
 ];
 
-export { boardItemDummy };
+export { boardItemDummy, prizeListDummy };
