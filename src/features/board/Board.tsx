@@ -51,7 +51,7 @@ const Board = (props: BoardProps) => {
   }, [prizeCounter]);
 
   const openItem = (idx: number) => {
-    if (tries - 1 >= 0) {
+    if (tries - 1 >= 0 && items[idx].status !== BoardItemStatus.OPEN) {
       setTries(tries - 1);
       setItems([
         ...items.slice(0, idx),
