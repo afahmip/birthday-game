@@ -1,6 +1,7 @@
-import { useEffect, useState } from "react";
+import { ReactNode, useEffect, useState } from "react";
 import { Nullable } from "../../common/GenericTypes";
 import { boardItemDummy, prizeListDummy } from "../../dummy/BoardItemDummy";
+import { GameState } from "../game/GameState";
 import { BoardItem, BoardItemProps } from "./BoardItem";
 import { BoardItemPrize, BoardItemStatus } from "./BoardItemTypes";
 
@@ -8,7 +9,7 @@ type BoardProps = {};
 
 type PrizeCounterMap = { [id: string]: number };
 
-const TOTAL_TRIES: number = 8;
+const TOTAL_TRIES: number = 9;
 
 const Board = (props: BoardProps) => {
   const [items, setItems] = useState<BoardItemProps[]>([]);
@@ -16,6 +17,7 @@ const Board = (props: BoardProps) => {
   const [totalPrize, setTotalPrize] = useState<PrizeCounterMap>({});
   const [prizeCounter, setPrizeCounter] = useState<PrizeCounterMap>({});
   const [chosenPrize, setChosenPrize] = useState<BoardItemPrize>();
+  const [gameState, setGameState] = useState<GameState>(GameState.GAME_START);
 
   useEffect(() => {
     resetBoard();
@@ -38,20 +40,36 @@ const Board = (props: BoardProps) => {
 
   useEffect(() => {
     let maxAmount: number = 0;
-    let prize: Nullable<BoardItemPrize> = null;
+    let prize: BoardItemPrize | undefined;
     Object.keys(prizeCounter).map((key) => {
       if (prizeCounter[key] > maxAmount) {
         prize = prizeListDummy[key];
         maxAmount = prizeCounter[key];
       }
     });
-    if (prize !== null) {
+    if (prize !== undefined && maxAmount === totalPrize[prize.id]) {
       setChosenPrize(prize);
     }
   }, [prizeCounter]);
 
+  useEffect(() => {
+    if (chosenPrize !== undefined) {
+      setGameState(GameState.GAME_WIN);
+    }
+  }, [chosenPrize]);
+
+  useEffect(() => {
+    if (tries === 0 && chosenPrize === undefined) {
+      setGameState(GameState.GAME_LOSE);
+    }
+  }, [tries]);
+
   const openItem = (idx: number) => {
-    if (tries - 1 >= 0 && items[idx].status !== BoardItemStatus.OPEN) {
+    if (
+      tries - 1 >= 0 &&
+      items[idx].status !== BoardItemStatus.OPEN &&
+      gameState === GameState.GAME_ONGOING
+    ) {
       setTries(tries - 1);
       setItems([
         ...items.slice(0, idx),
@@ -90,7 +108,13 @@ const Board = (props: BoardProps) => {
     setChosenPrize(undefined);
     setTries(TOTAL_TRIES);
     setPrizeCounter({});
+    setGameState(GameState.GAME_ONGOING);
   };
+
+  const renderFinishState = (): ReactNode =>
+    gameState === GameState.GAME_LOSE ? (
+      <button onClick={resetBoard}>Restart game?</button>
+    ) : null;
 
   return (
     <div className="flex flex-col">
@@ -106,7 +130,7 @@ const Board = (props: BoardProps) => {
         ))}
       </div>
       <p>{tries} tries left</p>
-      <button onClick={resetBoard}>Restart game?</button>
+      {renderFinishState()}
       {JSON.stringify(totalPrize)}
       {JSON.stringify(prizeCounter)}
       {JSON.stringify(chosenPrize)}
