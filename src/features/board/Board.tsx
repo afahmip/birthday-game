@@ -18,7 +18,7 @@ const Board = (props: BoardProps) => {
   const [chosenPrize, setChosenPrize] = useState<BoardItemPrize>();
 
   useEffect(() => {
-    setItems(boardItemDummy);
+    resetBoard();
   }, []);
 
   useEffect(() => {
@@ -76,8 +76,24 @@ const Board = (props: BoardProps) => {
     }
   };
 
+  const shuffle = (array: any[]) => {
+    for (let i = array.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [array[i], array[j]] = [array[j], array[i]];
+    }
+  };
+
+  const resetBoard = () => {
+    const initialItems = [...boardItemDummy];
+    shuffle(initialItems);
+    setItems(initialItems);
+    setChosenPrize(undefined);
+    setTries(TOTAL_TRIES);
+    setPrizeCounter({});
+  };
+
   return (
-    <div>
+    <div className="flex flex-col">
       <div className="flex flex-row flex-wrap">
         {items.map((item, idx) => (
           <BoardItem
@@ -90,6 +106,7 @@ const Board = (props: BoardProps) => {
         ))}
       </div>
       <p>{tries} tries left</p>
+      <button onClick={resetBoard}>Restart game?</button>
       {JSON.stringify(totalPrize)}
       {JSON.stringify(prizeCounter)}
       {JSON.stringify(chosenPrize)}
