@@ -1,3 +1,4 @@
 type Nullable<T> = T | null;
+type HashMap = { [id: string]: any };
 
-export type { Nullable };
+export type { Nullable, HashMap };

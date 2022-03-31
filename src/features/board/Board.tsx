@@ -1,30 +1,32 @@
 import { ReactNode, useEffect, useState } from "react";
-import { boardItemDummy, prizeListDummy } from "../../dummy/BoardItemDummy";
+import { HashMap } from "../../common/GenericTypes";
+import { prizeListDummy } from "../../dummy/BoardItemDummy";
+import useBoardStore from "../../stores/BoardStore";
 import { GameState } from "../game/GameState";
-import { BoardItem, BoardItemProps } from "./BoardItem";
+import { BoardItem } from "./BoardItem";
 import { BoardItemPrize, BoardItemStatus } from "./BoardItemTypes";
 
 type BoardProps = {};
 
-type PrizeCounterMap = { [id: string]: number };
-
-const TOTAL_TRIES: number = 9;
-
 const Board = (props: BoardProps) => {
-  const [items, setItems] = useState<BoardItemProps[]>([]);
-  const [tries, setTries] = useState<number>(TOTAL_TRIES);
-  const [totalPrize, setTotalPrize] = useState<PrizeCounterMap>({});
-  const [prizeCounter, setPrizeCounter] = useState<PrizeCounterMap>({});
-  const [chosenPrize, setChosenPrize] = useState<BoardItemPrize>();
-  const [gameState, setGameState] = useState<GameState>(GameState.GAME_START);
+  const {
+    items,
+    tries,
+    gameState,
+    chosenPrize,
+    prizeCounter,
+    setItems,
+    setTries,
+    setGameState,
+    setChosenPrize,
+    setPrizeCounter,
+    reset,
+  } = useBoardStore();
+  const [totalPrize, setTotalPrize] = useState<HashMap>({});
 
   useEffect(() => {
-    resetBoard();
-  }, []);
-
-  useEffect(() => {
-    const counter: PrizeCounterMap = {};
-    boardItemDummy.map((item) => {
+    const counter: HashMap = {};
+    items.map((item) => {
       if (item.prize !== undefined) {
         const { id } = item.prize;
         if (counter[id] !== undefined) {
@@ -75,15 +77,15 @@ const Board = (props: BoardProps) => {
         Object.assign({}, items[idx], { status: BoardItemStatus.OPEN }),
         ...items.slice(idx + 1),
       ]);
-      updateChosenPrize(idx);
+      updatePrizeCounter(idx);
     }
   };
 
-  const updateChosenPrize = (idx: number) => {
+  const updatePrizeCounter = (idx: number) => {
     let item = items[idx];
     if (item.prize !== undefined) {
       const { id } = item.prize;
-      const newCounter: PrizeCounterMap = { ...prizeCounter };
+      const newCounter: HashMap = { ...prizeCounter };
       if (newCounter[id] !== undefined) {
         newCounter[id] = newCounter[id] + 1;
       } else {
@@ -93,26 +95,9 @@ const Board = (props: BoardProps) => {
     }
   };
 
-  const shuffle = (array: any[]) => {
-    for (let i = array.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [array[i], array[j]] = [array[j], array[i]];
-    }
-  };
-
-  const resetBoard = () => {
-    const initialItems = [...boardItemDummy];
-    shuffle(initialItems);
-    setItems(initialItems);
-    setChosenPrize(undefined);
-    setTries(TOTAL_TRIES);
-    setPrizeCounter({});
-    setGameState(GameState.GAME_ONGOING);
-  };
-
   const renderFinishState = (): ReactNode =>
     gameState === GameState.GAME_LOSE ? (
-      <button onClick={resetBoard}>Restart game?</button>
+      <button onClick={reset}>Restart game?</button>
     ) : null;
 
   return (
