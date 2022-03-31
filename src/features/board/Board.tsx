@@ -100,10 +100,20 @@ const Board = (props: BoardProps) => {
     setGameState(GameState.GAME_ONGOING);
   };
 
-  const renderFinishState = (): ReactNode =>
-    gameState === GameState.GAME_LOSE ? (
-      <button onClick={resetGame}>Restart game?</button>
-    ) : null;
+  const claimPrize = () => {
+    setGameState(GameState.PRIZE_SHOWN);
+  };
+
+  const renderFinishState = (): ReactNode => {
+    switch (gameState) {
+      case GameState.GAME_LOSE:
+        return <button onClick={resetGame}>Restart game?</button>;
+      case GameState.GAME_WIN:
+        return <button onClick={claimPrize}>Claim prize!</button>;
+      default:
+        return null;
+    }
+  };
 
   return (
     <div className="board-wrapper flex flex-col justify-center items-center h-screen">

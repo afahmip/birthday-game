@@ -5,19 +5,19 @@ import {
 } from "../features/board/BoardItemTypes";
 import giftIconA from "../assets/gift_1.png";
 import giftIconB from "../assets/gift_2.png";
+import prizeImgA from "../assets/prize_sample.png";
 
 const prizeDummyA: BoardItemPrize = {
   id: "prize-a",
   name: "Prize A",
-  image: "https://cdn-icons-png.flaticon.com/512/1042/1042339.png",
+  image: prizeImgA,
   hiddenIcon: giftIconA,
 };
 
 const prizeDummyB: BoardItemPrize = {
   id: "prize-b",
-  name: "Prize B",
-  image:
-    "https://cdn-icons.flaticon.com/png/512/2997/premium/2997309.png?token=exp=1648481337~hmac=458380c9d98425be84ace4a4628f33e2",
+  name: "Wild Card",
+  image: prizeImgA,
   hiddenIcon: giftIconB,
 };
 
