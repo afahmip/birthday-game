@@ -1,5 +1,4 @@
 import { ReactNode, useEffect, useState } from "react";
-import { Nullable } from "../../common/GenericTypes";
 import { boardItemDummy, prizeListDummy } from "../../dummy/BoardItemDummy";
 import { GameState } from "../game/GameState";
 import { BoardItem, BoardItemProps } from "./BoardItem";
@@ -117,8 +116,8 @@ const Board = (props: BoardProps) => {
     ) : null;
 
   return (
-    <div className="flex flex-col">
-      <div className="flex flex-row flex-wrap">
+    <div className="board-wrapper flex flex-col justify-center items-center h-screen">
+      <div className="board flex flex-row flex-wrap p-1.5 rounded-md m-1">
         {items.map((item, idx) => (
           <BoardItem
             key={item.id}
@@ -129,7 +128,14 @@ const Board = (props: BoardProps) => {
           />
         ))}
       </div>
-      <p>{tries} tries left</p>
+      <div className="board-counter flex flex-row self-center justify-center items-center rounded-md m-8 p-2">
+        <div className="board-counter-count rounded-md text-6xl px-2">
+          {tries}
+        </div>
+        <p className="text-3xl font-bold mx-2">
+          tr{tries > 1 ? "ies" : "y"} left
+        </p>
+      </div>
       {renderFinishState()}
       {JSON.stringify(totalPrize)}
       {JSON.stringify(prizeCounter)}

@@ -3,12 +3,14 @@ import {
   BoardItemStatus,
   BoardItemPrize,
 } from "../features/board/BoardItemTypes";
+import giftIconA from "../assets/gift_1.png";
+import giftIconB from "../assets/gift_2.png";
 
 const prizeDummyA: BoardItemPrize = {
   id: "prize-a",
   name: "Prize A",
   image: "https://cdn-icons-png.flaticon.com/512/1042/1042339.png",
-  hiddenIcon: "https://cdn-icons-png.flaticon.com/512/1140/1140033.png",
+  hiddenIcon: giftIconA,
 };
 
 const prizeDummyB: BoardItemPrize = {
@@ -16,7 +18,7 @@ const prizeDummyB: BoardItemPrize = {
   name: "Prize B",
   image:
     "https://cdn-icons.flaticon.com/png/512/2997/premium/2997309.png?token=exp=1648481337~hmac=458380c9d98425be84ace4a4628f33e2",
-  hiddenIcon: "https://cdn-icons-png.flaticon.com/512/2743/2743237.png",
+  hiddenIcon: giftIconB,
 };
 
 type PrizeList = { [id: string]: BoardItemPrize };

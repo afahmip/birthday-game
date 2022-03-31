@@ -1,5 +1,7 @@
 import { MouseEventHandler, ReactNode } from "react";
 import { BoardItemStatus, BoardItemPrize } from "./BoardItemTypes";
+import defaultIcon from "../../assets/board_item_hidden.svg";
+import "./board.css";
 
 type BoardItemProps = {
   id: string;
@@ -8,8 +10,6 @@ type BoardItemProps = {
   onStatusChange?: MouseEventHandler;
 };
 
-const defaultIcon: string =
-  "https://cdn-icons-png.flaticon.com/512/66/66788.png";
 const emptyIcon: string =
   "https://cdn-icons-png.flaticon.com/512/1828/1828665.png";
 
@@ -19,19 +19,38 @@ const BoardItem = (props: BoardItemProps) => {
     status?: BoardItemStatus
   ): ReactNode => {
     if (status === BoardItemStatus.CLOSE) {
-      return <img src={defaultIcon} alt="" />;
+      return (
+        <img className="justify-center items-center" src={defaultIcon} alt="" />
+      );
     } else {
       if (prize === undefined) {
-        return <img src={emptyIcon} alt="" />;
+        return (
+          <img
+            className="board-item-zonk justify-center items-center"
+            src={emptyIcon}
+            alt=""
+          />
+        );
       } else {
-        return <img src={prize.hiddenIcon} alt="" />;
+        return (
+          <img
+            className="board-item-gift justify-center items-center"
+            src={prize.hiddenIcon}
+            alt=""
+          />
+        );
       }
     }
   };
 
   return (
-    <div onClick={props.onStatusChange} className="basis-1/4 cursor-pointer">
-      {renderImage(props.prize, props.status)}
+    <div
+      onClick={props.onStatusChange}
+      className="basis-1/4 cursor-pointer p-0.5 flex"
+    >
+      <div className="board-item-spot p-1.5 rounded-md">
+        {renderImage(props.prize, props.status)}
+      </div>
     </div>
   );
 };
