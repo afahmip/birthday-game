@@ -71,10 +71,9 @@ const useBoardStore = create(
         get().setChosenPrize(undefined);
         get().setTries(TOTAL_TRIES);
         get().setPrizeCounter({});
-        get().setGameState(GameState.GAME_ONGOING);
       },
     }),
-    { name: "@birthday-game/storage" }
+    { name: "@birthday-game/storage/board-store" }
   )
 );
 

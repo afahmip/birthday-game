@@ -2,6 +2,7 @@ import { ReactNode, useEffect, useState } from "react";
 import { HashMap } from "../../common/GenericTypes";
 import { prizeListDummy } from "../../dummy/BoardItemDummy";
 import useBoardStore from "../../stores/BoardStore";
+import useGameStore from "../../stores/GameStore";
 import { GameState } from "../game/GameState";
 import { BoardItem } from "./BoardItem";
 import { BoardItemPrize, BoardItemStatus } from "./BoardItemTypes";
@@ -12,16 +13,15 @@ const Board = (props: BoardProps) => {
   const {
     items,
     tries,
-    gameState,
     chosenPrize,
     prizeCounter,
     setItems,
     setTries,
-    setGameState,
     setChosenPrize,
     setPrizeCounter,
     reset,
   } = useBoardStore();
+  const { gameState, setGameState } = useGameStore();
   const [totalPrize, setTotalPrize] = useState<HashMap>({});
 
   useEffect(() => {
@@ -95,9 +95,14 @@ const Board = (props: BoardProps) => {
     }
   };
 
+  const resetGame = () => {
+    reset();
+    setGameState(GameState.GAME_ONGOING);
+  };
+
   const renderFinishState = (): ReactNode =>
     gameState === GameState.GAME_LOSE ? (
-      <button onClick={reset}>Restart game?</button>
+      <button onClick={resetGame}>Restart game?</button>
     ) : null;
 
   return (
