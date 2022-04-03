@@ -23,10 +23,10 @@ const Board = (props: BoardProps) => {
     reset,
   } = useBoardStore();
   const { gameState, setGameState } = useGameStore();
-  const [totalPrize, setTotalPrize] = useState<HashMap>({});
+  const [totalPrize, setTotalPrize] = useState<HashMap<string, number>>({});
 
   useEffect(() => {
-    const counter: HashMap = {};
+    const counter: HashMap<string, number> = {};
     items.map((item) => {
       if (item.prize !== undefined) {
         const { id } = item.prize;
@@ -86,7 +86,7 @@ const Board = (props: BoardProps) => {
     let item = items[idx];
     if (item.prize !== undefined) {
       const { id } = item.prize;
-      const newCounter: HashMap = { ...prizeCounter };
+      const newCounter: HashMap<string, number> = { ...prizeCounter };
       if (newCounter[id] !== undefined) {
         newCounter[id] = newCounter[id] + 1;
       } else {

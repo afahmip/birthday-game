@@ -13,12 +13,12 @@ interface BoardStore {
   tries: number;
   gameState: GameState;
   chosenPrize: BoardItemPrize | undefined;
-  prizeCounter: HashMap;
+  prizeCounter: HashMap<string, number>;
   setItems: (items: BoardItemProps[]) => void;
   setTries: (tries: number) => void;
   setGameState: (gameState: GameState) => void;
   setChosenPrize: (chosenPrize: BoardItemPrize | undefined) => void;
-  setPrizeCounter: (prizeCounter: HashMap) => void;
+  setPrizeCounter: (prizeCounter: HashMap<string, number>) => void;
   shuffleItems: () => void;
   reset: () => void;
 }
@@ -50,7 +50,8 @@ const useBoardStore = create(
       setChosenPrize: (chosenPrize: BoardItemPrize | undefined) =>
         set(() => ({ chosenPrize })),
 
-      setPrizeCounter: (prizeCounter: HashMap) => set(() => ({ prizeCounter })),
+      setPrizeCounter: (prizeCounter: HashMap<string, number>) =>
+        set(() => ({ prizeCounter })),
 
       shuffleItems: () => {
         const shuffle = (input: any[]): any[] => {
