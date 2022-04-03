@@ -3,6 +3,7 @@ import { HashMap } from "../../common/GenericTypes";
 import { prizeListDummy } from "../../dummy/BoardItemDummy";
 import useBoardStore from "../../stores/BoardStore";
 import useGameStore from "../../stores/GameStore";
+import { GameResult } from "../game/GameResult";
 import { GameState } from "../game/GameState";
 import { BoardItem } from "./BoardItem";
 import { BoardItemPrize, BoardItemStatus } from "./BoardItemTypes";
@@ -95,6 +96,20 @@ const Board = (props: BoardProps) => {
     }
   };
 
+  const renderCounter = () => {
+    const value: string = tries < 10 ? `0${tries}` : `${tries}`;
+    return (
+      <div className="board-counter flex flex-row self-center justify-center items-center rounded-md m-8 p-2">
+        <div className="board-counter-count rounded-md text-6xl px-2">
+          <p>{value}</p>
+        </div>
+        <p className="board-counter-desc text-3xl font-bold mx-2">
+          tr{tries > 1 ? "ies" : "y"} left
+        </p>
+      </div>
+    );
+  };
+
   const resetGame = () => {
     reset();
     setGameState(GameState.GAME_ONGOING);
@@ -104,43 +119,29 @@ const Board = (props: BoardProps) => {
     setGameState(GameState.PRIZE_SHOWN);
   };
 
-  const renderFinishState = (): ReactNode => {
-    switch (gameState) {
-      case GameState.GAME_LOSE:
-        return <button onClick={resetGame}>Restart game?</button>;
-      case GameState.GAME_WIN:
-        return <button onClick={claimPrize}>Claim prize!</button>;
-      default:
-        return null;
-    }
-  };
-
   return (
-    <div className="board-wrapper flex flex-col justify-center items-center h-screen">
-      <div className="board flex flex-row flex-wrap p-1.5 rounded-md m-1">
-        {items.map((item, idx) => (
-          <BoardItem
-            key={item.id}
-            id={item.id}
-            prize={item.prize}
-            status={item.status}
-            onStatusChange={() => openItem(idx)}
-          />
-        ))}
-      </div>
-      <div className="board-counter flex flex-row self-center justify-center items-center rounded-md m-8 p-2">
-        <div className="board-counter-count rounded-md text-6xl px-2">
-          {tries}
-        </div>
-        <p className="text-3xl font-bold mx-2">
-          tr{tries > 1 ? "ies" : "y"} left
+    <>
+      {gameState === GameState.GAME_LOSE || gameState === GameState.GAME_WIN ? (
+        <GameResult onRestart={resetGame} onClaim={claimPrize} />
+      ) : null}
+      <div className="board-wrapper flex flex-col justify-center items-center h-screen">
+        <p className="board-desc mb-8 mx-5 font-semibold">
+          Find 3 (three) of the same gifts to win the prize!
         </p>
+        <div className="board flex flex-row flex-wrap p-1.5 rounded-md m-1">
+          {items.map((item, idx) => (
+            <BoardItem
+              key={item.id}
+              id={item.id}
+              prize={item.prize}
+              status={item.status}
+              onStatusChange={() => openItem(idx)}
+            />
+          ))}
+        </div>
+        {renderCounter()}
       </div>
-      {renderFinishState()}
-      {JSON.stringify(totalPrize)}
-      {JSON.stringify(prizeCounter)}
-      {JSON.stringify(chosenPrize)}
-    </div>
+    </>
   );
 };
 

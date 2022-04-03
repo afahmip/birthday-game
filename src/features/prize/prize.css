@@ -1,10 +1,6 @@
 .prize-revealer {
-  font-family: "Poppins", sans-serif;
-}
-
-.prize-revealer h1 {
-  font-size: 2.2rem;
-  color: #4c09b1;
+  font-family: "Fredoka", sans-serif;
+  animation: fade-in 0.3s cubic-bezier(0.39, 0.575, 0.565, 1) both;
 }
 
 .prize-img {
@@ -118,7 +114,28 @@
 /* Prize Details */
 
 .prize-title {
+  /* color: #4c09b1; */
+  font-family: "Luckiest Guy", cursive;
+  font-size: 3.5rem;
   animation: scale-in-center 0.5s;
+  text-shadow: 0rem 0.65rem 0.5rem rgba(0, 0, 0, 0.6);
+  position: relative;
+  color: transparent;
+  -webkit-text-stroke: 0.1rem #dd8903;
+}
+
+.prize-title:after {
+  content: attr(data-content);
+  position: absolute;
+  top: 0;
+  left: 0;
+  text-shadow: none;
+  background: #fec400;
+  background: -webkit-linear-gradient(to top right, #fec400 0%, #fff3a6 100%);
+  background: -moz-linear-gradient(to top right, #fec400 0%, #fff3a6 100%);
+  background: linear-gradient(to top right, #fec400 0%, #fff3a6 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
 .prize-subtitle {
@@ -151,43 +168,6 @@
  * See http://animista.net/license for more info.
  * w: http://animista.net, t: @cssanimista
  * ---------------------------------------------- */
-
-@keyframes bounce-in-top {
-  0% {
-    transform: translateY(-500px);
-    animation-timing-function: ease-in;
-    opacity: 0;
-  }
-  38% {
-    transform: translateY(0);
-    animation-timing-function: ease-out;
-    opacity: 1;
-  }
-  55% {
-    transform: translateY(-65px);
-    animation-timing-function: ease-in;
-  }
-  72% {
-    transform: translateY(0);
-    animation-timing-function: ease-out;
-  }
-  81% {
-    transform: translateY(-28px);
-    animation-timing-function: ease-in;
-  }
-  90% {
-    transform: translateY(0);
-    animation-timing-function: ease-out;
-  }
-  95% {
-    transform: translateY(-8px);
-    animation-timing-function: ease-in;
-  }
-  100% {
-    transform: translateY(0);
-    animation-timing-function: ease-out;
-  }
-}
 
 @keyframes explode {
   0% {

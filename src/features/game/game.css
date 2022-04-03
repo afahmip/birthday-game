@@ -1,0 +1,150 @@
+.game-result {
+  background-color: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(0.5rem);
+  z-index: 1;
+  animation: fade-in 0.3s cubic-bezier(0.39, 0.575, 0.565, 1) both;
+}
+
+.game-result-gift {
+  visibility: hidden;
+}
+
+.game-result-gift-entrance {
+  visibility: visible;
+  animation: slide-in-top 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+}
+
+.game-result-gift-ongoing {
+  visibility: visible;
+  animation: pulsate-fwd 0.7s ease-in-out infinite both;
+}
+
+.game-result-gift img {
+  width: 40vw;
+}
+
+.game-result-title {
+  font-family: "Luckiest Guy", cursive;
+  font-size: 4rem;
+  text-shadow: 0rem 0.65rem 0.5rem rgba(0, 0, 0, 0.6);
+  position: relative;
+  color: transparent;
+}
+
+.game-result-title:after {
+  content: attr(data-content);
+  position: absolute;
+  top: 0;
+  left: 0;
+  text-shadow: none;
+}
+
+.game-result-win:after {
+  background: #fec400;
+  background: -webkit-linear-gradient(to top right, #fec400 0%, #fff3a6 100%);
+  background: -moz-linear-gradient(to top right, #fec400 0%, #fff3a6 100%);
+  background: linear-gradient(to top right, #fec400 0%, #fff3a6 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.game-result-lose:after {
+  background: #590e9c;
+  background: -webkit-linear-gradient(to top right, #590e9c 0%, #9f21ff 100%);
+  background: -moz-linear-gradient(to top right, #590e9c 0%, #9f21ff 100%);
+  background: linear-gradient(to top right, #590e9c 0%, #9f21ff 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.game-result-cta-wrapper {
+  margin: 0 2rem;
+  padding: 0.5rem 0 1rem 0;
+  width: 85%;
+  visibility: hidden;
+  border-radius: 0.7rem;
+  background: #2b2730;
+  background: -webkit-linear-gradient(to top, #2b2730 41%, #36313d 70%);
+  background: -moz-linear-gradient(to top, #2b2730 41%, #36313d 70%);
+  background: linear-gradient(to top, #2b2730 41%, #36313d 70%);
+  box-shadow: inset 0rem 0.15rem 0rem #494252, 0rem 1.2rem 0rem #231f28;
+}
+
+.game-result-cta-wrapper-entrance {
+  visibility: visible;
+  animation: slide-in-bottom 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+}
+
+.game-result-cta-wrapper-ongoing {
+  visibility: visible;
+  animation: float-without-shadow 2s ease-in-out infinite;
+}
+
+.game-result-cta {
+  width: 80%;
+  margin: 1rem;
+  border-radius: 0.5rem;
+  font-family: "Fredoka", sans-serif;
+  font-size: 1.5rem;
+  font-weight: 600;
+  padding: 1rem 0.75rem 1rem 0.75rem;
+  position: relative;
+  color: white;
+}
+
+.game-result-cta:active {
+  top: 0.7rem;
+}
+
+.cta-restart {
+  background: #911616;
+  background: -webkit-linear-gradient(to top right, #911616 0%, #cf1512 100%);
+  background: -moz-linear-gradient(to top right, #911616 0%, #cf1512 100%);
+  background: linear-gradient(to top right, #911616 0%, #cf1512 100%);
+  box-shadow: inset 0rem 0.15rem 0rem #e72522, 0rem 0.75rem 0rem #6e0f0f;
+}
+
+.cta-restart:active {
+  background: linear-gradient(to bottom, #911616 100%, #e72522 0%);
+  box-shadow: inset 0rem 0.15rem 0rem #b71a17, inset 0rem -0.3rem 0rem #6e0f0f;
+  color: #560707;
+  text-shadow: 0px 1px 1px #e7252297;
+}
+
+.cta-claim {
+  background: #2998d9;
+  background: -webkit-linear-gradient(to top right, #2998d9 0%, #29dafe 100%);
+  background: -moz-linear-gradient(to top right, #2998d9 0%, #29dafe 100%);
+  background: linear-gradient(to top right, #2998d9 0%, #29dafe 100%);
+  box-shadow: inset 0rem 0.15rem 0rem #29dafe, 0rem 0.75rem 0rem #1b7eb7;
+}
+
+.cta-claim:active {
+  background: linear-gradient(to bottom, #2998d9 100%, #29dafe 0%);
+  box-shadow: inset 0rem 0.15rem 0rem #1aafcd, inset 0rem -0.3rem 0rem #1b7eb7;
+  color: #166897;
+  text-shadow: 0px 1px 1px #1b76ab99;
+}
+
+@keyframes float-without-shadow {
+  0% {
+    transform: translatey(0px);
+  }
+  50% {
+    transform: translatey(-0.5rem);
+  }
+  100% {
+    transform: translatey(0px);
+  }
+}
+
+@keyframes slide-in-top {
+  0% {
+    transform: translateY(-50vh);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}

@@ -38,11 +38,14 @@ const PrizeDetails = (props: PrizeDetailsProps) => {
         <h2 className="prize-subtitle tracking-wide text-xl font-semibold mt-11">
           you got
         </h2>
-        <h1 className="prize-title tracking-tight font-bold mt-5">
+        <div
+          className="prize-title tracking-tight font-bold mt-3"
+          data-content={prize.name}
+        >
           {prize.name}
-        </h1>
+        </div>
         <div className="prize-revealer-desc text-white px-6 py-6 m-4 rounded-lg">
-          <p className="text-sm">
+          <p className="text-base">
             Please screenshot this screen and share to the Gamemaster to redeem
             your prize.
           </p>
