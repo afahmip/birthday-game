@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
 import { HashMap } from "../../common/GenericTypes";
-import { prizeListDummy } from "../../dummy/BoardItemDummy";
+import { prizeDummyA, prizeDummyB } from "../../dummy/BoardItemDummy";
 import useBoardStore from "../../stores/BoardStore";
 import useGameStore from "../../stores/GameStore";
+import usePrizeStore from "../../stores/PrizeStore";
 import { GameResult } from "../game/GameResult";
 import { GameState } from "../game/GameState";
 import { Prize } from "../prize/PrizeTypes";
@@ -10,6 +11,9 @@ import { BoardItem } from "./BoardItem";
 import { BoardItemStatus } from "./BoardItemTypes";
 
 type BoardProps = {};
+
+const MAX_BOARD_SIZE: number = 16;
+const TOTAL_TRIES: number = 10;
 
 const Board = (props: BoardProps) => {
   const {
@@ -21,32 +25,32 @@ const Board = (props: BoardProps) => {
     setTries,
     setChosenPrize,
     setPrizeCounter,
+    createBoardItems,
     reset,
   } = useBoardStore();
   const { gameState, setGameState } = useGameStore();
+  const { setPrizes } = usePrizeStore();
   const [totalPrize, setTotalPrize] = useState<HashMap<string, number>>({});
+  const [prizeMap, setPrizeMap] = useState<HashMap<string, Prize>>({});
 
   useEffect(() => {
-    const counter: HashMap<string, number> = {};
-    items.map((item) => {
-      if (item.prize !== undefined) {
-        const { id } = item.prize;
-        if (counter[id] !== undefined) {
-          counter[id] = counter[id] + 1;
-        } else {
-          counter[item.prize.id] = 1;
-        }
-      }
-    });
-    setTotalPrize(counter);
-  }, []);
+    if (items.length > 0) {
+      initTotalPrize();
+    }
+  }, [items]);
+
+  useEffect(() => {
+    if (gameState === GameState.GAME_START) {
+      initBoard();
+    }
+  }, [gameState]);
 
   useEffect(() => {
     let maxAmount: number = 0;
     let prize: Prize | undefined;
     Object.keys(prizeCounter).map((key) => {
       if (prizeCounter[key] > maxAmount) {
-        prize = prizeListDummy[key];
+        prize = prizeMap[key];
         maxAmount = prizeCounter[key];
       }
     });
@@ -66,6 +70,38 @@ const Board = (props: BoardProps) => {
       setGameState(GameState.GAME_LOSE);
     }
   }, [tries]);
+
+  const initBoard = () => {
+    let prizes = [prizeDummyA, prizeDummyB];
+    initPrizeMap(prizes);
+    createBoardItems(MAX_BOARD_SIZE, prizes);
+    setPrizes(prizes);
+    setTries(TOTAL_TRIES);
+    setGameState(GameState.GAME_ONGOING);
+  };
+
+  const initPrizeMap = (prizes: Prize[]) => {
+    const hashMap: HashMap<string, Prize> = {};
+    prizes.map((prize) => {
+      hashMap[prize.id] = prize;
+    });
+    setPrizeMap(hashMap);
+  };
+
+  const initTotalPrize = () => {
+    const counter: HashMap<string, number> = {};
+    items.map((item) => {
+      if (item.prize !== undefined) {
+        const { id } = item.prize;
+        if (counter[id] !== undefined) {
+          counter[id] = counter[id] + 1;
+        } else {
+          counter[item.prize.id] = 1;
+        }
+      }
+    });
+    setTotalPrize(counter);
+  };
 
   const openItem = (idx: number) => {
     if (
@@ -97,23 +133,9 @@ const Board = (props: BoardProps) => {
     }
   };
 
-  const renderCounter = () => {
-    const value: string = tries < 10 ? `0${tries}` : `${tries}`;
-    return (
-      <div className="board-counter flex flex-row self-center justify-center items-center rounded-md m-8 p-2">
-        <div className="board-counter-count rounded-md text-6xl px-2">
-          <p>{value}</p>
-        </div>
-        <p className="board-counter-desc text-3xl font-bold mx-2">
-          tr{tries > 1 ? "ies" : "y"} left
-        </p>
-      </div>
-    );
-  };
-
   const resetGame = () => {
     reset();
-    setGameState(GameState.GAME_ONGOING);
+    setGameState(GameState.GAME_START);
   };
 
   const claimPrize = () => {
@@ -140,7 +162,14 @@ const Board = (props: BoardProps) => {
             />
           ))}
         </div>
-        {renderCounter()}
+        <div className="board-counter flex flex-row self-center justify-center items-center rounded-md m-8 p-2">
+          <div className="board-counter-count rounded-md text-6xl px-2">
+            <p>{tries < 10 ? `0${tries}` : `${tries}`}</p>
+          </div>
+          <p className="board-counter-desc text-3xl font-bold mx-2">
+            tr{tries > 1 ? "ies" : "y"} left
+          </p>
+        </div>
       </div>
     </>
   );

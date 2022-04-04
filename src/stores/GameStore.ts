@@ -15,7 +15,7 @@ const useGameStore = create(
     Mutate<StoreApi<GameStore>, [["zustand/persist", Partial<GameStore>]]>
   >(
     (set) => ({
-      gameState: GameState.GAME_ONGOING,
+      gameState: GameState.GAME_START,
 
       setGameState: (gameState: GameState) => set(() => ({ gameState })),
     }),
