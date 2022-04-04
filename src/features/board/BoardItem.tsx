@@ -1,12 +1,13 @@
 import { MouseEventHandler, ReactNode } from "react";
-import { BoardItemStatus, BoardItemPrize } from "./BoardItemTypes";
+import { BoardItemStatus } from "./BoardItemTypes";
+import { Prize } from "../prize/PrizeTypes";
 import defaultIcon from "../../assets/board_item_hidden.svg";
 import "./board.css";
 
 type BoardItemProps = {
   id: string;
   status?: BoardItemStatus;
-  prize?: BoardItemPrize;
+  prize?: Prize;
   onStatusChange?: MouseEventHandler;
 };
 
@@ -14,10 +15,7 @@ const emptyIcon: string =
   "https://cdn-icons-png.flaticon.com/512/1828/1828665.png";
 
 const BoardItem = (props: BoardItemProps) => {
-  const renderImage = (
-    prize?: BoardItemPrize,
-    status?: BoardItemStatus
-  ): ReactNode => {
+  const renderImage = (prize?: Prize, status?: BoardItemStatus): ReactNode => {
     if (status === BoardItemStatus.CLOSE) {
       return (
         <img className="justify-center items-center" src={defaultIcon} alt="" />

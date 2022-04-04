@@ -3,8 +3,8 @@ import { persist } from "zustand/middleware";
 import { HashMap } from "../common/GenericTypes";
 import { boardItemDummy } from "../dummy/BoardItemDummy";
 import { BoardItemProps } from "../features/board/BoardItem";
-import { BoardItemPrize } from "../features/board/BoardItemTypes";
 import { GameState } from "../features/game/GameState";
+import { Prize } from "../features/prize/PrizeTypes";
 
 const TOTAL_TRIES: number = 9;
 
@@ -12,12 +12,12 @@ interface BoardStore {
   items: BoardItemProps[];
   tries: number;
   gameState: GameState;
-  chosenPrize: BoardItemPrize | undefined;
+  chosenPrize: Prize | undefined;
   prizeCounter: HashMap<string, number>;
   setItems: (items: BoardItemProps[]) => void;
   setTries: (tries: number) => void;
   setGameState: (gameState: GameState) => void;
-  setChosenPrize: (chosenPrize: BoardItemPrize | undefined) => void;
+  setChosenPrize: (chosenPrize: Prize | undefined) => void;
   setPrizeCounter: (prizeCounter: HashMap<string, number>) => void;
   shuffleItems: () => void;
   reset: () => void;
@@ -47,7 +47,7 @@ const useBoardStore = create(
 
       setGameState: (gameState: GameState) => set(() => ({ gameState })),
 
-      setChosenPrize: (chosenPrize: BoardItemPrize | undefined) =>
+      setChosenPrize: (chosenPrize: Prize | undefined) =>
         set(() => ({ chosenPrize })),
 
       setPrizeCounter: (prizeCounter: HashMap<string, number>) =>

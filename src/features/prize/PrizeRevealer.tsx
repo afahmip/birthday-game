@@ -1,15 +1,15 @@
-import "./prize.css";
-import { BoardItemPrize } from "../board/BoardItemTypes";
 import { useState } from "react";
 import { GiftSpotLight } from "./GiftSpotLight";
 import { PrizeDetails } from "./PrizeDetails";
+import { Prize } from "./PrizeTypes";
+import "./prize.css";
 
 /*
  * Camera icon credits to https://free3dicon.com/
  */
 
 type PrizeRevealerProps = {
-  prize: BoardItemPrize;
+  prize: Prize;
 };
 
 const PrizeRevealer = (props: PrizeRevealerProps) => {

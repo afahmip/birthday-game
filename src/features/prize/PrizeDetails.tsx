@@ -1,13 +1,13 @@
 import { useEffect, useState } from "react";
 import { wait } from "../../common/GenericFunctions";
-import { BoardItemPrize } from "../board/BoardItemTypes";
+import { Prize } from "./PrizeTypes";
 import starburst from "../../assets/starburst.png";
 
 const PRIZE_IMG_INTRO: string = "prize-img-entrance";
 const PRIZE_IMG_ONGOING: string = "prize-img-ongoing";
 
 type PrizeDetailsProps = {
-  prize: BoardItemPrize;
+  prize: Prize;
 };
 
 const PrizeDetails = (props: PrizeDetailsProps) => {

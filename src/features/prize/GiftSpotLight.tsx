@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
+import { Prize } from "./PrizeTypes";
 import { wait } from "../../common/GenericFunctions";
-import { BoardItemPrize } from "../board/BoardItemTypes";
 
 type GiftSpotLightProps = {
-  prize: BoardItemPrize;
+  prize: Prize;
   onFinish: () => void;
 };
 

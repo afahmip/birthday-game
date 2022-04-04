@@ -1,12 +1,13 @@
-import { ReactNode, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { HashMap } from "../../common/GenericTypes";
 import { prizeListDummy } from "../../dummy/BoardItemDummy";
 import useBoardStore from "../../stores/BoardStore";
 import useGameStore from "../../stores/GameStore";
 import { GameResult } from "../game/GameResult";
 import { GameState } from "../game/GameState";
+import { Prize } from "../prize/PrizeTypes";
 import { BoardItem } from "./BoardItem";
-import { BoardItemPrize, BoardItemStatus } from "./BoardItemTypes";
+import { BoardItemStatus } from "./BoardItemTypes";
 
 type BoardProps = {};
 
@@ -42,7 +43,7 @@ const Board = (props: BoardProps) => {
 
   useEffect(() => {
     let maxAmount: number = 0;
-    let prize: BoardItemPrize | undefined;
+    let prize: Prize | undefined;
     Object.keys(prizeCounter).map((key) => {
       if (prizeCounter[key] > maxAmount) {
         prize = prizeListDummy[key];
